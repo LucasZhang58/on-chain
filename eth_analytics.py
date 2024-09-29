@@ -1,13 +1,37 @@
+import os
+
 import streamlit as st
 import requests
 from web3 import Web3
 import pandas as pd
 import plotly.express as px
+from dotenv import load_dotenv
 
-# Connect to Ethereum network (using Infura, you'll need to sign up for a free account)
-# infura_url = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"
-# infura_url = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"
-infura_url = "https://mainnet.infura.io/v3/f45ab216c8fc4577a66c4a3e7b3d091a"
+
+
+# Try to load .env file for local development
+load_dotenv()
+
+# Function to get Infura project ID
+def get_infura_project_id():
+    # First, try to get the project ID from environment variables
+    project_id = os.getenv("INFURA_PROJECT_ID")
+    
+    if project_id:
+        return project_id
+    
+    # If not found in environment variables, check Streamlit secrets
+    # This part will only run when deployed on Streamlit Cloud
+    if 'infura' in st.secrets:
+        return st.secrets.infura.project_id
+    
+    # If project ID is not found anywhere, show an error and stop the app
+    st.error("Infura Project ID not found. Please set it in .env file or Streamlit secrets.")
+    st.stop()
+
+# Use the function to get the project ID
+infura_project_id = get_infura_project_id()
+infura_url = f"https://mainnet.infura.io/v3/{infura_project_id}"
 w3 = Web3(Web3.HTTPProvider(infura_url))
 
 st.title("Ethereum On-Chain Analytics")
@@ -37,6 +61,8 @@ def get_eth_price():
 # Sidebar
 st.sidebar.header("Configuration")
 num_blocks = st.sidebar.slider("Number of blocks to analyze", 10, 100, 50)
+
+st.image("https://cryptonary.com/cdn-cgi/image/width=1080/https://cryptonary.s3.eu-west-2.amazonaws.com/wp-content/uploads/2022/06/On-Chain.png")
 
 # Main content
 if st.button("Refresh Data"):
