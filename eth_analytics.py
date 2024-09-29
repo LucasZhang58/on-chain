@@ -7,10 +7,10 @@ import pandas as pd
 import plotly.express as px
 from dotenv import load_dotenv
 
-
-
-# Try to load .env file for local development
-load_dotenv()
+# Only import and use dotenv if we're not on Streamlit Cloud
+if not os.getenv('STREAMLIT_CLOUD'):
+    from dotenv import load_dotenv
+    load_dotenv()
 
 # Function to get Infura project ID
 def get_infura_project_id():
