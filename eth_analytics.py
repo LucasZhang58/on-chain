@@ -1,11 +1,26 @@
 import os
 
 import streamlit as st
-import requests
-from web3 import Web3
-import pandas as pd
-import plotly.express as px
-from dotenv import load_dotenv
+# import requests
+# from web3 import Web3
+# import pandas as pd
+# import plotly.express as px
+# from dotenv import load_dotenv
+
+try:
+    from web3 import Web3
+except ImportError as e:
+    st.error(f"Failed to import Web3: {e}")
+
+try:
+    import pandas as pd
+except ImportError as e:
+    st.error(f"Failed to import pandas: {e}")
+
+try:
+    import plotly.express as px
+except ImportError as e:
+    st.error(f"Failed to import plotly.express: {e}")
 
 # Only import and use dotenv if we're not on Streamlit Cloud
 if not os.getenv('STREAMLIT_CLOUD'):

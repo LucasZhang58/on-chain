@@ -1,6 +1,6 @@
-pandas==1.5.3
-plotly==5.14.1
-python-dotenv==1.0.1
-Requests==2.32.3
 streamlit==1.38.0
-web3==7.3.0
+web3==6.15.1
+python-dotenv==1.0.1
+pandas==2.2.1
+plotly==5.19.0
+numpy==1.26.4
